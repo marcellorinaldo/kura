@@ -141,6 +141,19 @@ public class TensorListAdapterTest {
     }
 
     @Test
+    public void adapterShouldThrowIfChannelAndTensorNamesDontMatch() {
+        givenWireRecordPropWith("INPUT0", new BooleanValue(true));
+        givenWireRecord();
+
+        givenScalarTensorDescriptorWith("INPUT1", "BOOL");
+        givenDescriptorToTensorListAdapter();
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenExceptionOccurred();
+    }
+
+    @Test
     public void adapterShouldWorkWithMultipleFloat() {
         // Build WireRecord
         Map<String, TypedValue<?>> wireRecordProperties = new HashMap();
@@ -230,6 +243,10 @@ public class TensorListAdapterTest {
      */
     private void thenNoExceptionOccurred() {
         assertFalse(this.exceptionOccurred);
+    }
+
+    private void thenExceptionOccurred() {
+        assertTrue(this.exceptionOccurred);
     }
 
     private <T> void thenResultingScalarTensorIsIstanceOf(Class<T> type) {
