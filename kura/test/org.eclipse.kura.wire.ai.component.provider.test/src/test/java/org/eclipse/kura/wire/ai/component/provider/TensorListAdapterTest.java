@@ -27,7 +27,10 @@ import java.util.Optional;
 import org.eclipse.kura.KuraIOException;
 import org.eclipse.kura.ai.inference.Tensor;
 import org.eclipse.kura.ai.inference.TensorDescriptor;
+import org.eclipse.kura.type.BooleanValue;
+import org.eclipse.kura.type.DoubleValue;
 import org.eclipse.kura.type.FloatValue;
+import org.eclipse.kura.type.IntegerValue;
 import org.eclipse.kura.type.TypedValue;
 import org.eclipse.kura.wire.WireRecord;
 import org.junit.Test;
@@ -36,50 +39,78 @@ public class TensorListAdapterTest {
 
     private TensorListAdapter adapterInstance = new TensorListAdapter();
 
+    private WireRecord inputRecord;
+    private List<TensorDescriptor> inputDescriptors;
+
+    private List<Tensor> outputTensors;
+
+    private boolean exceptionOccurred = false;
+
     /*
      * Scenarios
      */
     @Test
+    public void adapterShouldWorkWithBooleanScalar() {
+        givenScalarWireRecordWith("INPUT0", new BooleanValue(true));
+        givenScalarTensorDescriptorWith("INPUT0", "BOOL");
+        givenDescriptorToTensorListAdapter();
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(Boolean.class);
+        thenResultingScalarTensorIsEqualTo(Boolean.class, new Boolean(true));
+    }
+
+    @Test
+    public void adapterShouldWorkWithByteArray() {
+        // TODO
+        assertTrue(true);
+    }
+
+    @Test
     public void adapterShouldWorkWithFloatScalar() {
-        // Build WireRecord
-        Map<String, TypedValue<?>> wireRecordProperties = new HashMap();
-        wireRecordProperties.put("INPUT0", new FloatValue(1.0F));
+        givenScalarWireRecordWith("INPUT0", new FloatValue(1.0F));
+        givenScalarTensorDescriptorWith("INPUT0", "FP32");
+        givenDescriptorToTensorListAdapter();
 
-        WireRecord inputRecord = new WireRecord(wireRecordProperties);
+        whenTensorListAdapterConvertsFromWireRecord();
 
-        // Build TensorDescriptor
-        String name = "INPUT0";
-        String type = "FP32";
-        Optional<String> format = Optional.empty();
-        List<Long> shape = Arrays.asList(1L, 1L);
-        Map<String, Object> parameters = new HashMap<>();
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(Float.class);
+        thenResultingScalarTensorIsEqualTo(Float.class, new Float(1.0F));
+    }
 
-        TensorDescriptor descriptor = new TensorDescriptor(name, type, format, shape, parameters);
+    @Test
+    public void adapterShouldWorkWithDoubleScalar() {
+        givenScalarWireRecordWith("INPUT0", new DoubleValue(3.0F));
+        givenScalarTensorDescriptorWith("INPUT0", "FP32");
+        givenDescriptorToTensorListAdapter();
 
-        List<TensorDescriptor> descriptorList = Arrays.asList(descriptor);
+        whenTensorListAdapterConvertsFromWireRecord();
 
-        // Initialize TensorListAdapter
-        TensorListAdapter.givenDescriptors(descriptorList);
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(Double.class);
+        thenResultingScalarTensorIsEqualTo(Double.class, new Double(3.0F));
+    }
 
-        // Attempt conversion from wire records
-        try {
-            List<Tensor> result = adapterInstance.fromWireRecord(inputRecord);
+    @Test
+    public void adapterShouldWorkWithIntegerScalar() {
+        givenScalarWireRecordWith("INPUT0", new IntegerValue(6));
+        givenScalarTensorDescriptorWith("INPUT0", "INT32");
+        givenDescriptorToTensorListAdapter();
 
-            assertFalse(result.isEmpty());
-            assertEquals(1, result.size());
+        whenTensorListAdapterConvertsFromWireRecord();
 
-            Tensor resultingTensor = result.get(0);
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(Integer.class);
+        thenResultingScalarTensorIsEqualTo(Integer.class, new Integer(6));
+    }
 
-            assertEquals(Float.class, resultingTensor.getType());
-
-            Optional<List<Float>> data = resultingTensor.getData(Float.class);
-
-            assertTrue(data.isPresent());
-            assertEquals(new Float(1.0F), data.get().get(0));
-        } catch (KuraIOException e) {
-            e.printStackTrace();
-            fail("Unexpected exception was thrown");
-        }
+    @Test
+    public void adapterShouldWorkWithStringScalar() {
+        // TODO
+        assertTrue(true);
     }
 
     @Test
@@ -133,13 +164,58 @@ public class TensorListAdapterTest {
     /*
      * Given
      */
+    private void givenScalarWireRecordWith(String name, TypedValue<?> value) {
+        Map<String, TypedValue<?>> wireRecordProperties = new HashMap();
+        wireRecordProperties.put(name, value);
+        this.inputRecord = new WireRecord(wireRecordProperties);
+    }
+
+    private void givenScalarTensorDescriptorWith(String name, String type) {
+        Optional<String> format = Optional.empty();
+        List<Long> shape = Arrays.asList(1L, 1L);
+        Map<String, Object> parameters = new HashMap<>();
+
+        TensorDescriptor descriptor = new TensorDescriptor(name, type, format, shape, parameters);
+
+        this.inputDescriptors = Arrays.asList(descriptor);
+    }
+
+    private void givenDescriptorToTensorListAdapter() {
+        TensorListAdapter.givenDescriptors(this.inputDescriptors);
+    }
 
     /*
      * When
      */
+    private void whenTensorListAdapterConvertsFromWireRecord() {
+        try {
+            this.outputTensors = adapterInstance.fromWireRecord(inputRecord);
+        } catch (KuraIOException e) {
+            e.printStackTrace();
+            this.exceptionOccurred = true;
+        }
+    }
 
     /*
      * Then
      */
+    private void thenNoExceptionOccurred() {
+        assertFalse(this.exceptionOccurred);
+    }
 
+    private <T> void thenResultingScalarTensorIsIstanceOf(Class<T> type) {
+        assertEquals(1, this.outputTensors.size());
+        Optional<List<T>> data = this.outputTensors.get(0).getData(type);
+
+        assertTrue(data.isPresent());
+        assertEquals(1, data.get().size());
+    }
+
+    private <T> void thenResultingScalarTensorIsEqualTo(Class<T> type, T value) {
+        assertEquals(1, this.outputTensors.size());
+        Optional<List<T>> data = this.outputTensors.get(0).getData(type);
+
+        assertTrue(data.isPresent());
+        assertEquals(value, data.get().get(0));
+    }
 }
