@@ -34,13 +34,16 @@ import org.eclipse.kura.type.IntegerValue;
 import org.eclipse.kura.type.LongValue;
 import org.eclipse.kura.type.TypedValue;
 import org.eclipse.kura.wire.WireRecord;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TensorListAdapterTest {
 
     private TensorListAdapter adapterInstance = new TensorListAdapter();
 
+    private Map<String, TypedValue<?>> wireRecordProperties;
     private WireRecord inputRecord;
+
     private List<TensorDescriptor> inputDescriptors;
 
     private List<Tensor> outputTensors;
@@ -52,7 +55,9 @@ public class TensorListAdapterTest {
      */
     @Test
     public void adapterShouldWorkWithBooleanScalar() {
-        givenScalarWireRecordWith("INPUT0", new BooleanValue(true));
+        givenWireRecordPropWith("INPUT0", new BooleanValue(true));
+        givenWireRecord();
+
         givenScalarTensorDescriptorWith("INPUT0", "BOOL");
         givenDescriptorToTensorListAdapter();
 
@@ -71,7 +76,9 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithFloatScalar() {
-        givenScalarWireRecordWith("INPUT0", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
+        givenWireRecord();
+
         givenScalarTensorDescriptorWith("INPUT0", "FP32");
         givenDescriptorToTensorListAdapter();
 
@@ -84,7 +91,9 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithDoubleScalar() {
-        givenScalarWireRecordWith("INPUT0", new DoubleValue(3.0F));
+        givenWireRecordPropWith("INPUT0", new DoubleValue(3.0F));
+        givenWireRecord();
+
         givenScalarTensorDescriptorWith("INPUT0", "FP32");
         givenDescriptorToTensorListAdapter();
 
@@ -97,7 +106,9 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithIntegerScalar() {
-        givenScalarWireRecordWith("INPUT0", new IntegerValue(6));
+        givenWireRecordPropWith("INPUT0", new IntegerValue(6));
+        givenWireRecord();
+
         givenScalarTensorDescriptorWith("INPUT0", "INT32");
         givenDescriptorToTensorListAdapter();
 
@@ -110,7 +121,9 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithLongScalar() {
-        givenScalarWireRecordWith("INPUT0", new LongValue(6555));
+        givenWireRecordPropWith("INPUT0", new LongValue(6555));
+        givenWireRecord();
+
         givenScalarTensorDescriptorWith("INPUT0", "INT32");
         givenDescriptorToTensorListAdapter();
 
@@ -178,10 +191,12 @@ public class TensorListAdapterTest {
     /*
      * Given
      */
-    private void givenScalarWireRecordWith(String name, TypedValue<?> value) {
-        Map<String, TypedValue<?>> wireRecordProperties = new HashMap();
-        wireRecordProperties.put(name, value);
-        this.inputRecord = new WireRecord(wireRecordProperties);
+    private void givenWireRecordPropWith(String name, TypedValue<?> value) {
+        this.wireRecordProperties.put(name, value);
+    }
+
+    private void givenWireRecord() {
+        this.inputRecord = new WireRecord(this.wireRecordProperties);
     }
 
     private void givenScalarTensorDescriptorWith(String name, String type) {
@@ -232,4 +247,13 @@ public class TensorListAdapterTest {
         assertTrue(data.isPresent());
         assertEquals(value, data.get().get(0));
     }
+
+    /*
+     * Utils
+     */
+    @Before
+    public void inputWireRecordPropCleanup() {
+        this.wireRecordProperties = new HashMap();
+    }
+
 }
