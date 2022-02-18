@@ -31,6 +31,7 @@ import org.eclipse.kura.type.BooleanValue;
 import org.eclipse.kura.type.DoubleValue;
 import org.eclipse.kura.type.FloatValue;
 import org.eclipse.kura.type.IntegerValue;
+import org.eclipse.kura.type.LongValue;
 import org.eclipse.kura.type.TypedValue;
 import org.eclipse.kura.wire.WireRecord;
 import org.junit.Test;
@@ -105,6 +106,19 @@ public class TensorListAdapterTest {
         thenNoExceptionOccurred();
         thenResultingScalarTensorIsIstanceOf(Integer.class);
         thenResultingScalarTensorIsEqualTo(Integer.class, new Integer(6));
+    }
+
+    @Test
+    public void adapterShouldWorkWithLongScalar() {
+        givenScalarWireRecordWith("INPUT0", new LongValue(6555));
+        givenScalarTensorDescriptorWith("INPUT0", "INT32");
+        givenDescriptorToTensorListAdapter();
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(Long.class);
+        thenResultingScalarTensorIsEqualTo(Long.class, new Long(6555));
     }
 
     @Test
