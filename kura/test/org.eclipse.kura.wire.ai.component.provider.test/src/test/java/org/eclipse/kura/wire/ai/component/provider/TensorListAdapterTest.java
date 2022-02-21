@@ -270,6 +270,30 @@ public class TensorListAdapterTest {
         assertTrue(true);
     }
 
+    @Test
+    public void adapterShouldWorkWithMultipleInputWithDifferentType() {
+        givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT1", new BooleanValue(true));
+        givenWireRecordPropWith("INPUT2", new IntegerValue(64));
+        givenWireRecordPropWith("INPUT3", new LongValue(65535));
+        givenWireRecord();
+
+        givenScalarTensorDescriptorWith("INPUT0", "FP32");
+        givenScalarTensorDescriptorWith("INPUT1", "BOOL");
+        givenScalarTensorDescriptorWith("INPUT2", "INT32");
+        givenScalarTensorDescriptorWith("INPUT3", "INT32");
+        givenDescriptorToTensorListAdapter();
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingTensorIsSize(4);
+        thenResultingNamedScalarTensorIsEqualTo("INPUT0", Float.class, new Float(1.0F));
+        thenResultingNamedScalarTensorIsEqualTo("INPUT1", Boolean.class, new Boolean(true));
+        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Integer.class, new Integer(64));
+        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Long.class, new Long(65535));
+    }
+
     /*
      * Given
      */
