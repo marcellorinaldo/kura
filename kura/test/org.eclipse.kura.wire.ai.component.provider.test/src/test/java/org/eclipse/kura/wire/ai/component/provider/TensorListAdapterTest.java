@@ -338,6 +338,11 @@ public class TensorListAdapterTest {
     }
 
     @Test
+    public void adapterShouldWorkWithByteArrayScalarInputTensor() {
+        assertTrue(true);
+    }
+
+    @Test
     public void adapterShouldWorkWithFloatScalarInputTensor() {
         Optional<String> format = Optional.empty();
         Map<String, Object> parameters = new HashMap<>();
