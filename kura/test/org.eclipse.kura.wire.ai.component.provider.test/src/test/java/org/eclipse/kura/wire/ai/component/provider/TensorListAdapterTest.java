@@ -335,6 +335,7 @@ public class TensorListAdapterTest {
         assertEquals(new BooleanValue(true), wireRecordProp.get("OUTPUT0"));
     }
 
+    @Test
     public void adapterShouldWorkWithFloatScalarInputTensor() {
         Optional<String> format = Optional.empty();
         Map<String, Object> parameters = new HashMap<>();
