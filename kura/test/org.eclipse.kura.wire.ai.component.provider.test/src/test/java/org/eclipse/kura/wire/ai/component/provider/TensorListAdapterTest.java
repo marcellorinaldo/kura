@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.eclipse.kura.KuraIOException;
+import org.eclipse.kura.KuraException;
 import org.eclipse.kura.ai.inference.Tensor;
 import org.eclipse.kura.ai.inference.TensorDescriptor;
 import org.eclipse.kura.type.BooleanValue;
@@ -40,7 +40,7 @@ import org.junit.Test;
 
 public class TensorListAdapterTest {
 
-    private TensorListAdapter adapterInstance = new TensorListAdapter();
+    private TensorListAdapter adapterInstance;
 
     private Map<String, TypedValue<?>> wireRecordProperties;
     private WireRecord inputRecord;
@@ -328,7 +328,7 @@ public class TensorListAdapterTest {
     }
 
     private void givenDescriptorToTensorListAdapter() {
-        TensorListAdapter.givenDescriptors(this.inputDescriptors);
+        this.adapterInstance = TensorListAdapter.givenDescriptors(this.inputDescriptors);
     }
 
     /*
@@ -336,8 +336,8 @@ public class TensorListAdapterTest {
      */
     private void whenTensorListAdapterConvertsFromWireRecord() {
         try {
-            this.outputTensors = adapterInstance.fromWireRecord(inputRecord);
-        } catch (KuraIOException e) {
+            this.outputTensors = this.adapterInstance.fromWireRecord(inputRecord);
+        } catch (KuraException e) {
             e.printStackTrace();
             this.exceptionOccurred = true;
         }
