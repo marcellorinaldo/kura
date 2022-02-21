@@ -59,7 +59,7 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "BOOL");
+        givenTensorDescriptorWith("INPUT0", "BOOL", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -80,7 +80,7 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "FP32");
+        givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -95,7 +95,7 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new DoubleValue(3.0F));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "FP32");
+        givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -110,7 +110,7 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new IntegerValue(6));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "INT32");
+        givenTensorDescriptorWith("INPUT0", "INT32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -125,7 +125,7 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new LongValue(6555));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "INT32");
+        givenTensorDescriptorWith("INPUT0", "INT32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -146,7 +146,20 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT1", "BOOL");
+        givenTensorDescriptorWith("INPUT1", "BOOL", Arrays.asList(1L, 1L));
+        givenDescriptorToTensorListAdapter();
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenExceptionOccurred();
+    }
+
+    @Test
+    public void adapterShouldThrowIfChannelAndTensorShapeDontMatch() {
+        givenWireRecordPropWith("INPUT0", new BooleanValue(true));
+        givenWireRecord();
+
+        givenTensorDescriptorWith("INPUT0", "BOOL", Arrays.asList(5L, 5L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -161,9 +174,9 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new BooleanValue(true));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "BOOL");
-        givenScalarTensorDescriptorWith("INPUT1", "BOOL");
-        givenScalarTensorDescriptorWith("INPUT3", "BOOL");
+        givenTensorDescriptorWith("INPUT0", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT1", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "BOOL", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -190,10 +203,10 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new FloatValue(4.0F));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "FP32");
-        givenScalarTensorDescriptorWith("INPUT1", "FP32");
-        givenScalarTensorDescriptorWith("INPUT2", "FP32");
-        givenScalarTensorDescriptorWith("INPUT3", "FP32");
+        givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT1", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT2", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "FP32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -213,8 +226,8 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new DoubleValue(4.0F));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT2", "FP32");
-        givenScalarTensorDescriptorWith("INPUT3", "FP32");
+        givenTensorDescriptorWith("INPUT2", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "FP32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -232,8 +245,8 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new IntegerValue(42));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT2", "INT32");
-        givenScalarTensorDescriptorWith("INPUT3", "INT32");
+        givenTensorDescriptorWith("INPUT2", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "INT32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -251,8 +264,8 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new LongValue(42));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT2", "INT32");
-        givenScalarTensorDescriptorWith("INPUT3", "INT32");
+        givenTensorDescriptorWith("INPUT2", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "INT32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -278,10 +291,10 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT3", new LongValue(65535));
         givenWireRecord();
 
-        givenScalarTensorDescriptorWith("INPUT0", "FP32");
-        givenScalarTensorDescriptorWith("INPUT1", "BOOL");
-        givenScalarTensorDescriptorWith("INPUT2", "INT32");
-        givenScalarTensorDescriptorWith("INPUT3", "INT32");
+        givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT1", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT2", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "INT32", Arrays.asList(1L, 1L));
         givenDescriptorToTensorListAdapter();
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -305,9 +318,8 @@ public class TensorListAdapterTest {
         this.inputRecord = new WireRecord(this.wireRecordProperties);
     }
 
-    private void givenScalarTensorDescriptorWith(String name, String type) {
+    private void givenTensorDescriptorWith(String name, String type, List<Long> shape) {
         Optional<String> format = Optional.empty();
-        List<Long> shape = Arrays.asList(1L, 1L);
         Map<String, Object> parameters = new HashMap<>();
 
         TensorDescriptor descriptor = new TensorDescriptor(name, type, format, shape, parameters);
