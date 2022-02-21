@@ -16,7 +16,6 @@ package org.eclipse.kura.wire.ai.component.provider;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -168,25 +167,12 @@ public class TensorListAdapterTest {
         givenScalarTensorDescriptorWith("INPUT3", "INT32");
         givenDescriptorToTensorListAdapter();
 
-        // Attempt conversion from wire records
-        try {
-            List<Tensor> result = adapterInstance.fromWireRecord(inputRecord);
+        whenTensorListAdapterConvertsFromWireRecord();
 
-            assertFalse(result.isEmpty());
-            assertEquals(4, result.size());
-
-            for (Tensor resultingTensor : result) {
-                assertEquals(Float.class, resultingTensor.getType());
-
-                Optional<List<Float>> data = resultingTensor.getData(Float.class);
-
-                assertTrue(data.isPresent());
-                assertEquals(new Float(1.0F), data.get().get(0));
-            }
-        } catch (KuraIOException e) {
-            e.printStackTrace();
-            fail("Unexpected exception was thrown");
-        }
+        thenNoExceptionOccurred();
+        thenResultingTensorIsSize(4);
+        thenAllResultingTensorAreIstanceOf(Float.class);
+        thenAllResultingTensorAreEqualTo(Float.class, new Float(1.0F));
     }
 
     /*
@@ -237,6 +223,11 @@ public class TensorListAdapterTest {
         assertTrue(this.exceptionOccurred);
     }
 
+    private <T> void thenResultingTensorIsSize(int size) {
+        assertFalse(this.outputTensors.isEmpty());
+        assertEquals(size, this.outputTensors.size());
+    }
+
     private <T> void thenResultingScalarTensorIsIstanceOf(Class<T> type) {
         assertEquals(1, this.outputTensors.size());
         Optional<List<T>> data = this.outputTensors.get(0).getData(type);
@@ -251,6 +242,24 @@ public class TensorListAdapterTest {
 
         assertTrue(data.isPresent());
         assertEquals(value, data.get().get(0));
+    }
+
+    private <T> void thenAllResultingTensorAreIstanceOf(Class<T> type) {
+        for (Tensor resultingTensor : outputTensors) {
+            Optional<List<T>> data = resultingTensor.getData(type);
+
+            assertTrue(data.isPresent());
+            assertEquals(1, data.get().size());
+        }
+    }
+
+    private <T> void thenAllResultingTensorAreEqualTo(Class<T> type, T value) {
+        for (Tensor resultingTensor : outputTensors) {
+            Optional<List<T>> data = resultingTensor.getData(type);
+
+            assertTrue(data.isPresent());
+            assertEquals(value, data.get().get(0));
+        }
     }
 
     /*
