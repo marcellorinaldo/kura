@@ -33,6 +33,7 @@ import org.eclipse.kura.type.DoubleValue;
 import org.eclipse.kura.type.FloatValue;
 import org.eclipse.kura.type.IntegerValue;
 import org.eclipse.kura.type.LongValue;
+import org.eclipse.kura.type.StringValue;
 import org.eclipse.kura.type.TypedValue;
 import org.eclipse.kura.wire.WireRecord;
 import org.junit.Before;
@@ -130,8 +131,16 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithStringScalar() {
-        // TODO
-        assertTrue(true);
+        givenWireRecordPropWith("INPUT0", new StringValue("This is a test"));
+        givenWireRecord();
+
+        givenTensorDescriptorWith("INPUT0", "STRING", Arrays.asList(1L, 1L));
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingScalarTensorIsIstanceOf(String.class);
+        thenResultingScalarTensorIsEqualTo(String.class, new String("This is a test"));
     }
 
     @Test
@@ -265,8 +274,21 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithMultipleStrings() {
-        // TODO
-        assertTrue(true);
+        givenWireRecordPropWith("INPUT2", new StringValue("This is a test string"));
+        givenWireRecordPropWith("INPUT3", new StringValue("This is another string for testing"));
+        givenWireRecord();
+
+        givenTensorDescriptorWith("INPUT2", "STRING", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("INPUT3", "STRING", Arrays.asList(1L, 1L));
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingTensorIsSize(2);
+        thenAllResultingTensorAreIstanceOf(String.class);
+        thenResultingNamedScalarTensorIsEqualTo("INPUT2", String.class, new String("This is a test string"));
+        thenResultingNamedScalarTensorIsEqualTo("INPUT3", String.class,
+                new String("This is another string for testing"));
     }
 
     @Test
