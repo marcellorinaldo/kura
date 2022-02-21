@@ -10,18 +10,18 @@
  * Contributors:
  *  Eurotech
  *******************************************************************************/
+package org.eclipse.kura.net.admin.visitor.linux;
 
-package org.eclipse.kura.wire.ai.component.provider;
+public class WpaSupplicantConfigWriterFactory {
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
-public class AIComponentTest {
-
-    @Test
-    public void testingTest() {
-        assertTrue(false);
+    private WpaSupplicantConfigWriterFactory() {
     }
 
+    public static WpaSupplicantConfigWriterFactory getDefault() {
+        return new WpaSupplicantConfigWriterFactory();
+    }
+
+    public WpaSupplicantConfigWriter getInstance() {
+        return new WpaSupplicantConfigWriter();
+    }
 }
