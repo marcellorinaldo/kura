@@ -457,7 +457,7 @@ public class TensorListAdapterTest {
      */
     @Before
     public void cleanup() {
-        this.wireRecordProperties = new HashMap();
+        this.wireRecordProperties = new HashMap<String, TypedValue<?>>();
         this.inputDescriptors = new ArrayList<>();
     }
 
