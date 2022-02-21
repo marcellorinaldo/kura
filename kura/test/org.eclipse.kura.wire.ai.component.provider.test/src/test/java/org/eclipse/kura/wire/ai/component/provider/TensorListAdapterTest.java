@@ -18,6 +18,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -155,30 +156,17 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithMultipleFloat() {
-        // Build WireRecord
-        Map<String, TypedValue<?>> wireRecordProperties = new HashMap();
-        wireRecordProperties.put("INPUT0", new FloatValue(1.0F));
-        wireRecordProperties.put("INPUT1", new FloatValue(1.0F));
-        wireRecordProperties.put("INPUT2", new FloatValue(1.0F));
-        wireRecordProperties.put("INPUT3", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT1", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT2", new FloatValue(1.0F));
+        givenWireRecordPropWith("INPUT3", new FloatValue(1.0F));
+        givenWireRecord();
 
-        WireRecord inputRecord = new WireRecord(wireRecordProperties);
-
-        // Build TensorDescriptor
-        String type = "FP32";
-        Optional<String> format = Optional.empty();
-        List<Long> shape = Arrays.asList(1L, 1L);
-        Map<String, Object> parameters = new HashMap<>();
-
-        TensorDescriptor descriptor_0 = new TensorDescriptor("INPUT0", type, format, shape, parameters);
-        TensorDescriptor descriptor_1 = new TensorDescriptor("INPUT1", type, format, shape, parameters);
-        TensorDescriptor descriptor_2 = new TensorDescriptor("INPUT2", type, format, shape, parameters);
-        TensorDescriptor descriptor_3 = new TensorDescriptor("INPUT3", type, format, shape, parameters);
-
-        List<TensorDescriptor> descriptorList = Arrays.asList(descriptor_0, descriptor_1, descriptor_2, descriptor_3);
-
-        // Initialize TensorListAdapter
-        TensorListAdapter.givenDescriptors(descriptorList);
+        givenScalarTensorDescriptorWith("INPUT0", "INT32");
+        givenScalarTensorDescriptorWith("INPUT1", "INT32");
+        givenScalarTensorDescriptorWith("INPUT2", "INT32");
+        givenScalarTensorDescriptorWith("INPUT3", "INT32");
+        givenDescriptorToTensorListAdapter();
 
         // Attempt conversion from wire records
         try {
@@ -219,7 +207,7 @@ public class TensorListAdapterTest {
 
         TensorDescriptor descriptor = new TensorDescriptor(name, type, format, shape, parameters);
 
-        this.inputDescriptors = Arrays.asList(descriptor);
+        this.inputDescriptors.add(descriptor);
     }
 
     private void givenDescriptorToTensorListAdapter() {
@@ -269,8 +257,9 @@ public class TensorListAdapterTest {
      * Utils
      */
     @Before
-    public void inputWireRecordPropCleanup() {
+    public void cleanup() {
         this.wireRecordProperties = new HashMap();
+        this.inputDescriptors = new ArrayList<>();
     }
 
 }
