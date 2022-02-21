@@ -327,6 +327,8 @@ public class TensorListAdapterTest {
         List<WireRecord> record = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor))
                 .fromTensorList(Arrays.asList(tensor));
 
+        assertEquals(1, record.size());
+
         Map<String, TypedValue<?>> wireRecordProp = record.get(0).getProperties();
 
         assertEquals(1, wireRecordProp.size());
@@ -347,6 +349,8 @@ public class TensorListAdapterTest {
 
         List<WireRecord> record = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor))
                 .fromTensorList(Arrays.asList(tensor));
+
+        assertEquals(1, record.size());
 
         Map<String, TypedValue<?>> wireRecordProp = record.get(0).getProperties();
 
