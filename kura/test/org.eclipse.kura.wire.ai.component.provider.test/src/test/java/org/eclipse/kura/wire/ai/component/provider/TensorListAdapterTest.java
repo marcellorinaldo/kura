@@ -341,7 +341,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new BooleanValue(true));
     }
 
@@ -354,7 +354,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
     }
 
@@ -366,7 +366,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
     }
 
@@ -378,7 +378,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new DoubleValue(5.464D));
     }
 
@@ -390,7 +390,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(42));
     }
 
@@ -402,7 +402,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(36L));
     }
 
@@ -415,7 +415,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a test string"));
     }
 
@@ -451,7 +451,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(1);
-        thenResultingWireRecordPropertiesAreSize(1);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new ByteArrayValue(new byte[] { 16, 5 }));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new ByteArrayValue(new byte[] { 1 }));
@@ -470,6 +470,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(3);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new FloatValue(55.66F));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new FloatValue(-12.5F));
@@ -486,6 +487,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(2);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new DoubleValue(55.66D));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new DoubleValue(-12.5D));
     }
@@ -501,6 +503,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(2);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(35));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new IntegerValue(55));
     }
@@ -516,6 +519,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(2);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(356L));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new LongValue(-55L));
     }
@@ -531,6 +535,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(2);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a"));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new StringValue("test string"));
     }
@@ -551,6 +556,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenResultingWireRecordIsSize(4);
+        thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(6.9F));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new IntegerValue(100));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new StringValue("May the force be with you"));
@@ -625,12 +631,14 @@ public class TensorListAdapterTest {
         assertEquals(size, this.outputRecords.size());
     }
 
-    private void thenResultingWireRecordPropertiesAreSize(int size) {
+    private void thenAllWireRecordsHaveSingleProperty() {
         assertFalse(this.outputRecords.isEmpty());
 
-        Map<String, TypedValue<?>> wireRecordProp = this.outputRecords.get(0).getProperties();
+        for (WireRecord record : outputRecords) {
+            Map<String, TypedValue<?>> properties = record.getProperties();
 
-        assertEquals(size, wireRecordProp.size());
+            assertEquals(1, properties.size());
+        }
     }
 
     private <T> void thenResultingNamedTensorIsEqualTo(String name, Class<T> type, List<T> expectedData) {
