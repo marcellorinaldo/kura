@@ -460,7 +460,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromTensorList();
 
         thenNoExceptionOccurred();
-        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordIsSize(3);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new ByteArrayValue(new byte[] { 16, 5 }));
