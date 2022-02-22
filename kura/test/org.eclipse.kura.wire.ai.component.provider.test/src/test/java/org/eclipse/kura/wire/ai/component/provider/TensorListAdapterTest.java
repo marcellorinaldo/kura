@@ -44,9 +44,11 @@ public class TensorListAdapterTest {
     private Map<String, TypedValue<?>> wireRecordProperties;
     private WireRecord inputRecord;
 
+    private List<Tensor> inputTensors;
     private List<TensorDescriptor> inputDescriptors;
 
     private List<Tensor> outputTensors;
+    private List<WireRecord> outputRecords;
 
     private boolean exceptionOccurred = false;
 
@@ -316,25 +318,14 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithBooleanScalarInputTensor() {
-        Optional<String> format = Optional.empty();
-        Map<String, Object> parameters = new HashMap<>();
+        givenTensorDescriptorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(true));
 
-        TensorDescriptor descriptor = new TensorDescriptor("OUTPUT0", "BOOL", format, Arrays.asList(1L, 1L),
-                parameters);
+        whenTensorListAdapterConvertsFromTensorList();
 
-        Tensor tensor = new Tensor(Boolean.class, descriptor, Arrays.asList(new Boolean(true)));
-
-        List<WireRecord> record = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor))
-                .fromTensorList(Arrays.asList(tensor));
-
-        assertEquals(1, record.size());
-
-        Map<String, TypedValue<?>> wireRecordProp = record.get(0).getProperties();
-
-        assertEquals(1, wireRecordProp.size());
-        assertTrue(wireRecordProp.containsKey("OUTPUT0"));
-
-        assertEquals(new BooleanValue(true), wireRecordProp.get("OUTPUT0"));
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new BooleanValue(true));
     }
 
     @Test
@@ -344,25 +335,14 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithFloatScalarInputTensor() {
-        Optional<String> format = Optional.empty();
-        Map<String, Object> parameters = new HashMap<>();
+        givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(3.2F));
 
-        TensorDescriptor descriptor = new TensorDescriptor("OUTPUT0", "FP32", format, Arrays.asList(1L, 1L),
-                parameters);
+        whenTensorListAdapterConvertsFromTensorList();
 
-        Tensor tensor = new Tensor(Float.class, descriptor, Arrays.asList(new Float(3.2F)));
-
-        List<WireRecord> record = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor))
-                .fromTensorList(Arrays.asList(tensor));
-
-        assertEquals(1, record.size());
-
-        Map<String, TypedValue<?>> wireRecordProp = record.get(0).getProperties();
-
-        assertEquals(1, wireRecordProp.size());
-        assertTrue(wireRecordProp.containsKey("OUTPUT0"));
-
-        assertEquals(new FloatValue(3.2F), wireRecordProp.get("OUTPUT0"));
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
     }
 
     /*
@@ -385,6 +365,17 @@ public class TensorListAdapterTest {
         this.inputDescriptors.add(descriptor);
     }
 
+    private <T> void givenTensorWith(String name, String type, List<Long> shape, Class<T> classType, List<T> data) {
+        Optional<String> format = Optional.empty();
+        Map<String, Object> parameters = new HashMap<>();
+
+        TensorDescriptor descriptor = new TensorDescriptor(name, type, format, shape, parameters);
+
+        Tensor tensor = new Tensor(classType, descriptor, data);
+
+        this.inputTensors.add(tensor);
+    }
+
     /*
      * When
      */
@@ -395,6 +386,10 @@ public class TensorListAdapterTest {
             e.printStackTrace();
             this.exceptionOccurred = true;
         }
+    }
+
+    private void whenTensorListAdapterConvertsFromTensorList() {
+        this.outputRecords = TensorListAdapter.givenDescriptors(this.inputDescriptors).fromTensorList(inputTensors);
     }
 
     /*
@@ -408,9 +403,22 @@ public class TensorListAdapterTest {
         assertTrue(this.exceptionOccurred);
     }
 
-    private <T> void thenResultingTensorIsSize(int size) {
+    private void thenResultingTensorIsSize(int size) {
         assertFalse(this.outputTensors.isEmpty());
         assertEquals(size, this.outputTensors.size());
+    }
+
+    private void thenResultingWireRecordIsSize(int size) {
+        assertFalse(this.outputRecords.isEmpty());
+        assertEquals(size, this.outputRecords.size());
+    }
+
+    private void thenResultingWireRecordPropertiesAreSize(int size) {
+        assertFalse(this.outputRecords.isEmpty());
+
+        Map<String, TypedValue<?>> wireRecordProp = this.outputRecords.get(0).getProperties();
+
+        assertEquals(size, wireRecordProp.size());
     }
 
     private <T> void thenResultingScalarTensorIsIstanceOf(Class<T> type) {
@@ -461,6 +469,15 @@ public class TensorListAdapterTest {
         return null;
     }
 
+    private void thenResultingNamedWireRecordPropertiesAreEqualTo(String channelName, TypedValue<?> data) {
+        Map<String, TypedValue<?>> wireRecordProp = this.outputRecords.get(0).getProperties();
+
+        TypedValue<?> wireData = wireRecordProp.get(channelName);
+
+        assertNotNull(wireData);
+        assertEquals(data, wireData);
+    }
+
     /*
      * Utils
      */
@@ -468,6 +485,7 @@ public class TensorListAdapterTest {
     public void cleanup() {
         this.wireRecordProperties = new HashMap<String, TypedValue<?>>();
         this.inputDescriptors = new ArrayList<>();
+        this.inputTensors = new ArrayList<>();
     }
 
 }
