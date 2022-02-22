@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.kura.KuraException;
+import org.eclipse.kura.KuraIOException;
 import org.eclipse.kura.ai.inference.Tensor;
 import org.eclipse.kura.ai.inference.TensorDescriptor;
 import org.eclipse.kura.type.BooleanValue;
@@ -340,6 +341,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new BooleanValue(true));
@@ -353,6 +355,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
@@ -365,6 +368,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
@@ -377,6 +381,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new DoubleValue(5.464D));
@@ -389,6 +394,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(42));
@@ -401,6 +407,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(36L));
@@ -414,6 +421,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a test string"));
@@ -431,6 +439,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(3);
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new BooleanValue(true));
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new BooleanValue(false));
@@ -450,6 +459,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(1);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
@@ -469,6 +479,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(3);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
@@ -486,6 +497,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(2);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new DoubleValue(55.66D));
@@ -502,6 +514,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(2);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(35));
@@ -518,6 +531,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(2);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(356L));
@@ -534,6 +548,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(2);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a"));
@@ -555,6 +570,7 @@ public class TensorListAdapterTest {
 
         whenTensorListAdapterConvertsFromTensorList();
 
+        thenNoExceptionOccurred();
         thenResultingWireRecordIsSize(4);
         thenAllWireRecordsHaveSingleProperty();
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(6.9F));
@@ -607,7 +623,12 @@ public class TensorListAdapterTest {
     }
 
     private void whenTensorListAdapterConvertsFromTensorList() {
-        this.outputRecords = TensorListAdapter.givenDescriptors(this.inputDescriptors).fromTensorList(inputTensors);
+        try {
+            this.outputRecords = TensorListAdapter.givenDescriptors(this.inputDescriptors).fromTensorList(inputTensors);
+        } catch (KuraIOException e) {
+            e.printStackTrace();
+            this.exceptionOccurred = true;
+        }
     }
 
     /*
