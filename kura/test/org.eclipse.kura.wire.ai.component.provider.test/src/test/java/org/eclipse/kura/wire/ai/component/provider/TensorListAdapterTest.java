@@ -56,7 +56,7 @@ public class TensorListAdapterTest {
      * Scenarios
      */
     @Test
-    public void adapterShouldWorkWithBooleanScalar() {
+    public void adapterShouldWorkWithBooleanScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
 
@@ -70,13 +70,13 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithByteArray() {
+    public void adapterShouldWorkWithByteArrayWiredRecord() {
         // TODO
         assertTrue(true);
     }
 
     @Test
-    public void adapterShouldWorkWithFloatScalar() {
+    public void adapterShouldWorkWithFloatScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecord();
 
@@ -90,7 +90,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithDoubleScalar() {
+    public void adapterShouldWorkWithDoubleScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new DoubleValue(3.0F));
         givenWireRecord();
 
@@ -104,7 +104,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithIntegerScalar() {
+    public void adapterShouldWorkWithIntegerScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new IntegerValue(6));
         givenWireRecord();
 
@@ -118,7 +118,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithLongScalar() {
+    public void adapterShouldWorkWithLongScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new LongValue(6555));
         givenWireRecord();
 
@@ -132,7 +132,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithStringScalar() {
+    public void adapterShouldWorkWithStringScalarWiredRecord() {
         givenWireRecordPropWith("INPUT0", new StringValue("This is a test"));
         givenWireRecord();
 
@@ -170,7 +170,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleBoolean() {
+    public void adapterShouldWorkWithMultipleBooleanWiredRecord() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecordPropWith("INPUT1", new BooleanValue(false));
         givenWireRecordPropWith("INPUT3", new BooleanValue(true));
@@ -191,13 +191,13 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleByteArrays() {
+    public void adapterShouldWorkWithMultipleByteArraysWiredRecord() {
         // TODO
         assertTrue(true);
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleFloat() {
+    public void adapterShouldWorkWithMultipleFloatWiredRecord() {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecordPropWith("INPUT1", new FloatValue(2.0F));
         givenWireRecordPropWith("INPUT2", new FloatValue(3.0F));
@@ -221,7 +221,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleDouble() {
+    public void adapterShouldWorkWithMultipleDoubleWiredRecord() {
         givenWireRecordPropWith("INPUT2", new DoubleValue(3.0F));
         givenWireRecordPropWith("INPUT3", new DoubleValue(4.0F));
         givenWireRecord();
@@ -239,7 +239,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleInteger() {
+    public void adapterShouldWorkWithMultipleIntegerWiredRecord() {
         givenWireRecordPropWith("INPUT2", new IntegerValue(30));
         givenWireRecordPropWith("INPUT3", new IntegerValue(42));
         givenWireRecord();
@@ -257,7 +257,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleLong() {
+    public void adapterShouldWorkWithMultipleLongWiredRecord() {
         givenWireRecordPropWith("INPUT2", new LongValue(30));
         givenWireRecordPropWith("INPUT3", new LongValue(42));
         givenWireRecord();
@@ -275,7 +275,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleStrings() {
+    public void adapterShouldWorkWithMultipleStringsWiredRecord() {
         givenWireRecordPropWith("INPUT2", new StringValue("This is a test string"));
         givenWireRecordPropWith("INPUT3", new StringValue("This is another string for testing"));
         givenWireRecord();
@@ -294,7 +294,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithMultipleInputWithDifferentType() {
+    public void adapterShouldWorkWithMultipleDifferentTypeWiredRecord() {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecordPropWith("INPUT1", new BooleanValue(true));
         givenWireRecordPropWith("INPUT2", new IntegerValue(64));
@@ -317,7 +317,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithBooleanScalarInputTensor() {
+    public void adapterShouldWorkWithBooleanScalarTensor() {
         givenTensorDescriptorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(true));
 
@@ -329,12 +329,12 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithByteArrayScalarInputTensor() {
+    public void adapterShouldWorkWithByteArrayScalarTensor() {
         assertTrue(true);
     }
 
     @Test
-    public void adapterShouldWorkWithFloatScalarInputTensor() {
+    public void adapterShouldWorkWithFloatScalarTensor() {
         givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(3.2F));
 
