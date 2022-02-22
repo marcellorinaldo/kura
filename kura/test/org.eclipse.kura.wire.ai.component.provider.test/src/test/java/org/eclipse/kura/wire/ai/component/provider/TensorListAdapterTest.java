@@ -200,8 +200,23 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithMultipleByteArraysWiredRecord() {
-        // TODO
-        assertTrue(true);
+        givenWireRecordPropWith("INPUT0", new ByteArrayValue(new byte[] { 1, 2, 3, 4 }));
+        givenWireRecordPropWith("INPUT1", new ByteArrayValue(new byte[] { 3, 4 }));
+        givenWireRecordPropWith("INPUT3", new ByteArrayValue(new byte[] { 1, 2, 3, 4, 5, 10 }));
+        givenWireRecord();
+
+        givenTensorDescriptorWith("INPUT0", "BYTES", Arrays.asList(1L, 4L));
+        givenTensorDescriptorWith("INPUT1", "BYTES", Arrays.asList(1L, 2L));
+        givenTensorDescriptorWith("INPUT3", "BYTES", Arrays.asList(1L, 6L));
+
+        whenTensorListAdapterConvertsFromWireRecord();
+
+        thenNoExceptionOccurred();
+        thenResultingTensorIsSize(3);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Byte.class, Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4));
+        thenResultingNamedTensorIsEqualTo("INPUT1", Byte.class, Arrays.asList((byte) 3, (byte) 4));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Byte.class,
+                Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 10));
     }
 
     @Test
