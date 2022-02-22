@@ -567,6 +567,17 @@ public class TensorListAdapterTest {
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT3", new LongValue(254678L));
     }
 
+    public void adapterShouldThrowWithUnsupportedTensorShape() {
+        givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 5L));
+
+        givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 5L), Float.class,
+                Arrays.asList(6.9F, 1.0F, 1.0F, 1.0F, 1.0F));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenExceptionOccurred();
+    }
+
     /*
      * Given
      */
