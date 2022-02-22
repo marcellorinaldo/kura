@@ -17,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,39 +72,15 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithByteArrayWiredRecord() {
-        // Given descriptor
-        Optional<String> format = Optional.empty();
-        Map<String, Object> parameters = new HashMap<>();
+        givenWireRecordPropWith("INPUT0", new ByteArrayValue(new byte[] { 1, 2, 3, 4 }));
+        givenWireRecord();
 
-        TensorDescriptor descriptor = new TensorDescriptor("INPUT0", "BYTES", format, Arrays.asList(1L, 5L),
-                parameters);
+        givenTensorDescriptorWith("INPUT0", "BYTES", Arrays.asList(1L, 1L));
 
-        // Given wire record
-        Map<String, TypedValue<?>> wireRecordProperties = new HashMap<String, TypedValue<?>>();
-        wireRecordProperties.put("INPUT0", new ByteArrayValue(new byte[] { 1, 2, 3, 4 }));
-        WireRecord inputRecord = new WireRecord(wireRecordProperties);
+        whenTensorListAdapterConvertsFromWireRecord();
 
-        // When conversion is called
-        List<Tensor> outTensorList = null;
-        try {
-            outTensorList = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor)).fromWireRecord(inputRecord);
-        } catch (KuraException e) {
-            e.printStackTrace();
-            fail("Test failed");
-        }
-
-        // Then
-        assertNotNull(outTensorList);
-        assertEquals(1, outTensorList.size());
-
-        Tensor tensor = outTensorList.get(0);
-        Optional<List<Byte>> data = tensor.getData(Byte.class);
-
-        assertTrue(data.isPresent());
-        assertEquals(4, data.get().size());
-        List<Byte> expectedData = Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-
-        assertEquals(expectedData, data.get());
+        thenNoExceptionOccurred();
+        thenResultingNamedTensorIsEqualTo("INPUT0", Byte.class, Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4));
     }
 
     @Test
@@ -661,6 +636,17 @@ public class TensorListAdapterTest {
 
         assertTrue(data.isPresent());
         assertEquals(value, data.get().get(0));
+    }
+
+    private <T> void thenResultingNamedTensorIsEqualTo(String name, Class<T> type, List<T> expectedData) {
+        Tensor tensor = findTensorByName(name, outputTensors);
+
+        assertNotNull(tensor);
+
+        Optional<List<T>> data = tensor.getData(type);
+
+        assertTrue(data.isPresent());
+        assertEquals(expectedData, data.get());
     }
 
     private Tensor findTensorByName(String name, List<Tensor> tensorList) {
