@@ -347,8 +347,15 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithByteArrayScalarTensor() {
-        // TODO
-        assertTrue(true);
+        givenTensorDescriptorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L), Byte.class,
+                Arrays.asList((byte) 1, (byte) 2, (byte) 3));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
     }
 
     @Test
@@ -432,8 +439,22 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithMultipleByteArrayTensor() {
-        // TODO
-        assertTrue(true);
+        givenTensorDescriptorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "BYTES", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT2", "BYTES", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L), Byte.class,
+                Arrays.asList((byte) 1, (byte) 2, (byte) 3));
+        givenTensorWith("OUTPUT1", "BYTES", Arrays.asList(1L, 1L), Byte.class, Arrays.asList((byte) 16, (byte) 5));
+        givenTensorWith("OUTPUT2", "BYTES", Arrays.asList(1L, 1L), Byte.class, Arrays.asList((byte) 1));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new ByteArrayValue(new byte[] { 1, 2, 3 }));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new ByteArrayValue(new byte[] { 16, 5 }));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new ByteArrayValue(new byte[] { 1 }));
     }
 
     @Test
