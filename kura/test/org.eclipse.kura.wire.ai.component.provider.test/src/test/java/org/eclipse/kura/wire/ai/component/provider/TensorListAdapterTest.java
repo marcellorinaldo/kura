@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import org.eclipse.kura.KuraException;
 import org.eclipse.kura.ai.inference.Tensor;
 import org.eclipse.kura.ai.inference.TensorDescriptor;
 import org.eclipse.kura.type.BooleanValue;
+import org.eclipse.kura.type.ByteArrayValue;
 import org.eclipse.kura.type.DoubleValue;
 import org.eclipse.kura.type.FloatValue;
 import org.eclipse.kura.type.IntegerValue;
@@ -71,8 +73,39 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithByteArrayWiredRecord() {
-        // TODO
-        assertTrue(true);
+        // Given descriptor
+        Optional<String> format = Optional.empty();
+        Map<String, Object> parameters = new HashMap<>();
+
+        TensorDescriptor descriptor = new TensorDescriptor("INPUT0", "BYTES", format, Arrays.asList(1L, 5L),
+                parameters);
+
+        // Given wire record
+        Map<String, TypedValue<?>> wireRecordProperties = new HashMap<String, TypedValue<?>>();
+        wireRecordProperties.put("INPUT0", new ByteArrayValue(new byte[] { 1, 2, 3, 4 }));
+        WireRecord inputRecord = new WireRecord(wireRecordProperties);
+
+        // When conversion is called
+        List<Tensor> outTensorList = null;
+        try {
+            outTensorList = TensorListAdapter.givenDescriptors(Arrays.asList(descriptor)).fromWireRecord(inputRecord);
+        } catch (KuraException e) {
+            e.printStackTrace();
+            fail("Test failed");
+        }
+
+        // Then
+        assertNotNull(outTensorList);
+        assertEquals(1, outTensorList.size());
+
+        Tensor tensor = outTensorList.get(0);
+        Optional<List<Byte>> data = tensor.getData(Byte.class);
+
+        assertTrue(data.isPresent());
+        assertEquals(4, data.get().size());
+        List<Byte> expectedData = Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+
+        assertEquals(expectedData, data.get());
     }
 
     @Test
