@@ -168,18 +168,6 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldThrowIfChannelAndTensorShapeDontMatch() {
-        givenWireRecordPropWith("INPUT0", new BooleanValue(true));
-        givenWireRecord();
-
-        givenTensorDescriptorWith("INPUT0", "BOOL", Arrays.asList(5L, 5L));
-
-        whenTensorListAdapterConvertsFromWireRecord();
-
-        thenExceptionOccurred();
-    }
-
-    @Test
     public void adapterShouldWorkWithMultipleBooleanWiredRecord() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecordPropWith("INPUT1", new BooleanValue(false));
