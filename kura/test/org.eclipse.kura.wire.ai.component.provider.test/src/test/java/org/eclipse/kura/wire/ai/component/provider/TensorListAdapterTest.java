@@ -66,8 +66,8 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(Boolean.class);
-        thenResultingScalarTensorIsEqualTo(Boolean.class, new Boolean(true));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Boolean.class, Arrays.asList(true));
     }
 
     @Test
@@ -80,6 +80,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
+        thenResultingTensorListIsSize(1);
         thenResultingNamedTensorIsEqualTo("INPUT0", Byte.class, Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4));
     }
 
@@ -93,13 +94,13 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(Float.class);
-        thenResultingScalarTensorIsEqualTo(Float.class, new Float(1.0F));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Float.class, Arrays.asList(1.0F));
     }
 
     @Test
     public void adapterShouldWorkWithDoubleScalarWiredRecord() {
-        givenWireRecordPropWith("INPUT0", new DoubleValue(3.0F));
+        givenWireRecordPropWith("INPUT0", new DoubleValue(3.0D));
         givenWireRecord();
 
         givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
@@ -107,8 +108,8 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(Double.class);
-        thenResultingScalarTensorIsEqualTo(Double.class, new Double(3.0F));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Double.class, Arrays.asList(3.0D));
     }
 
     @Test
@@ -121,13 +122,13 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(Integer.class);
-        thenResultingScalarTensorIsEqualTo(Integer.class, new Integer(6));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Integer.class, Arrays.asList(6));
     }
 
     @Test
     public void adapterShouldWorkWithLongScalarWiredRecord() {
-        givenWireRecordPropWith("INPUT0", new LongValue(6555));
+        givenWireRecordPropWith("INPUT0", new LongValue(6555L));
         givenWireRecord();
 
         givenTensorDescriptorWith("INPUT0", "INT32", Arrays.asList(1L, 1L));
@@ -135,8 +136,8 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(Long.class);
-        thenResultingScalarTensorIsEqualTo(Long.class, new Long(6555));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Long.class, Arrays.asList(6555L));
     }
 
     @Test
@@ -149,8 +150,8 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingScalarTensorIsIstanceOf(String.class);
-        thenResultingScalarTensorIsEqualTo(String.class, new String("This is a test"));
+        thenResultingTensorListIsSize(1);
+        thenResultingNamedTensorIsEqualTo("INPUT0", String.class, Arrays.asList("This is a test"));
     }
 
     @Test
@@ -191,11 +192,10 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(3);
-        thenAllResultingTensorAreIstanceOf(Boolean.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT0", Boolean.class, new Boolean(true));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT1", Boolean.class, new Boolean(false));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Boolean.class, new Boolean(true));
+        thenResultingTensorListIsSize(3);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Boolean.class, Arrays.asList(true));
+        thenResultingNamedTensorIsEqualTo("INPUT1", Boolean.class, Arrays.asList(false));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Boolean.class, Arrays.asList(true));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(3);
+        thenResultingTensorListIsSize(3);
         thenResultingNamedTensorIsEqualTo("INPUT0", Byte.class, Arrays.asList((byte) 1, (byte) 2, (byte) 3, (byte) 4));
         thenResultingNamedTensorIsEqualTo("INPUT1", Byte.class, Arrays.asList((byte) 3, (byte) 4));
         thenResultingNamedTensorIsEqualTo("INPUT3", Byte.class,
@@ -235,18 +235,17 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(4);
-        thenAllResultingTensorAreIstanceOf(Float.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT0", Float.class, new Float(1.0F));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT1", Float.class, new Float(2.0F));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Float.class, new Float(3.0F));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Float.class, new Float(4.0F));
+        thenResultingTensorListIsSize(4);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Float.class, Arrays.asList(1.0F));
+        thenResultingNamedTensorIsEqualTo("INPUT1", Float.class, Arrays.asList(2.0F));
+        thenResultingNamedTensorIsEqualTo("INPUT2", Float.class, Arrays.asList(3.0F));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Float.class, Arrays.asList(4.0F));
     }
 
     @Test
     public void adapterShouldWorkWithMultipleDoubleWiredRecord() {
-        givenWireRecordPropWith("INPUT2", new DoubleValue(3.0F));
-        givenWireRecordPropWith("INPUT3", new DoubleValue(4.0F));
+        givenWireRecordPropWith("INPUT2", new DoubleValue(3.0D));
+        givenWireRecordPropWith("INPUT3", new DoubleValue(4.0D));
         givenWireRecord();
 
         givenTensorDescriptorWith("INPUT2", "FP32", Arrays.asList(1L, 1L));
@@ -255,10 +254,9 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(2);
-        thenAllResultingTensorAreIstanceOf(Double.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Double.class, new Double(3.0F));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Double.class, new Double(4.0F));
+        thenResultingTensorListIsSize(2);
+        thenResultingNamedTensorIsEqualTo("INPUT2", Double.class, Arrays.asList(3.0D));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Double.class, Arrays.asList(4.0D));
     }
 
     @Test
@@ -273,10 +271,9 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(2);
-        thenAllResultingTensorAreIstanceOf(Integer.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Integer.class, new Integer(30));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Integer.class, new Integer(42));
+        thenResultingTensorListIsSize(2);
+        thenResultingNamedTensorIsEqualTo("INPUT2", Integer.class, Arrays.asList(30));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Integer.class, Arrays.asList(42));
     }
 
     @Test
@@ -291,10 +288,9 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(2);
-        thenAllResultingTensorAreIstanceOf(Long.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Long.class, new Long(30));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Long.class, new Long(42));
+        thenResultingTensorListIsSize(2);
+        thenResultingNamedTensorIsEqualTo("INPUT2", Long.class, Arrays.asList(30L));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Long.class, Arrays.asList(42L));
     }
 
     @Test
@@ -309,11 +305,9 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(2);
-        thenAllResultingTensorAreIstanceOf(String.class);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", String.class, new String("This is a test string"));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", String.class,
-                new String("This is another string for testing"));
+        thenResultingTensorListIsSize(2);
+        thenResultingNamedTensorIsEqualTo("INPUT2", String.class, Arrays.asList("This is a test string"));
+        thenResultingNamedTensorIsEqualTo("INPUT3", String.class, Arrays.asList("This is another string for testing"));
     }
 
     @Test
@@ -332,11 +326,11 @@ public class TensorListAdapterTest {
         whenTensorListAdapterConvertsFromWireRecord();
 
         thenNoExceptionOccurred();
-        thenResultingTensorIsSize(4);
-        thenResultingNamedScalarTensorIsEqualTo("INPUT0", Float.class, new Float(1.0F));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT1", Boolean.class, new Boolean(true));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT2", Integer.class, new Integer(64));
-        thenResultingNamedScalarTensorIsEqualTo("INPUT3", Long.class, new Long(65535));
+        thenResultingTensorListIsSize(4);
+        thenResultingNamedTensorIsEqualTo("INPUT0", Float.class, Arrays.asList(1.0F));
+        thenResultingNamedTensorIsEqualTo("INPUT1", Boolean.class, Arrays.asList(true));
+        thenResultingNamedTensorIsEqualTo("INPUT2", Integer.class, Arrays.asList(64));
+        thenResultingNamedTensorIsEqualTo("INPUT3", Long.class, Arrays.asList(65535L));
     }
 
     @Test
@@ -353,6 +347,7 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithByteArrayScalarTensor() {
+        // TODO
         assertTrue(true);
     }
 
@@ -599,7 +594,7 @@ public class TensorListAdapterTest {
         assertTrue(this.exceptionOccurred);
     }
 
-    private void thenResultingTensorIsSize(int size) {
+    private void thenResultingTensorListIsSize(int size) {
         assertFalse(this.outputTensors.isEmpty());
         assertEquals(size, this.outputTensors.size());
     }
@@ -615,42 +610,6 @@ public class TensorListAdapterTest {
         Map<String, TypedValue<?>> wireRecordProp = this.outputRecords.get(0).getProperties();
 
         assertEquals(size, wireRecordProp.size());
-    }
-
-    private <T> void thenResultingScalarTensorIsIstanceOf(Class<T> type) {
-        assertEquals(1, this.outputTensors.size());
-        Optional<List<T>> data = this.outputTensors.get(0).getData(type);
-
-        assertTrue(data.isPresent());
-        assertEquals(1, data.get().size());
-    }
-
-    private <T> void thenResultingScalarTensorIsEqualTo(Class<T> type, T value) {
-        assertEquals(1, this.outputTensors.size());
-        Optional<List<T>> data = this.outputTensors.get(0).getData(type);
-
-        assertTrue(data.isPresent());
-        assertEquals(value, data.get().get(0));
-    }
-
-    private <T> void thenAllResultingTensorAreIstanceOf(Class<T> type) {
-        for (Tensor resultingTensor : outputTensors) {
-            Optional<List<T>> data = resultingTensor.getData(type);
-
-            assertTrue(data.isPresent());
-            assertEquals(1, data.get().size());
-        }
-    }
-
-    private <T> void thenResultingNamedScalarTensorIsEqualTo(String name, Class<T> type, T value) {
-        Tensor tensor = findTensorByName(name, outputTensors);
-
-        assertNotNull(tensor);
-
-        Optional<List<T>> data = tensor.getData(type);
-
-        assertTrue(data.isPresent());
-        assertEquals(value, data.get().get(0));
     }
 
     private <T> void thenResultingNamedTensorIsEqualTo(String name, Class<T> type, List<T> expectedData) {
