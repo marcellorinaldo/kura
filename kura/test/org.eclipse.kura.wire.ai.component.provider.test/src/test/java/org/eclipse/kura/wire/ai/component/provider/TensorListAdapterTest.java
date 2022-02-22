@@ -394,6 +394,108 @@ public class TensorListAdapterTest {
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a test string"));
     }
 
+    @Test
+    public void adapterShouldWorkWithMultipleBooleanTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "BOOL", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT2", "BOOL", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(true));
+        givenTensorWith("OUTPUT1", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(false));
+        givenTensorWith("OUTPUT2", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(true));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(3);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new BooleanValue(true));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new BooleanValue(false));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new BooleanValue(true));
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleByteArrayTensor() {
+        // TODO
+        assertTrue(true);
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleFloatTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT2", "FP32", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(3.2F));
+        givenTensorWith("OUTPUT1", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(55.66F));
+        givenTensorWith("OUTPUT2", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(-12.5F));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(3);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new FloatValue(55.66F));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new FloatValue(-12.5F));
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleDoubleTensor() {
+        givenTensorDescriptorWith("OUTPUT1", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT2", "FP32", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT1", "FP32", Arrays.asList(1L, 1L), Double.class, Arrays.asList(55.66D));
+        givenTensorWith("OUTPUT2", "FP32", Arrays.asList(1L, 1L), Double.class, Arrays.asList(-12.5D));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(2);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new DoubleValue(55.66D));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new DoubleValue(-12.5D));
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleIntegerTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Integer.class, Arrays.asList(35));
+        givenTensorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L), Integer.class, Arrays.asList(55));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(2);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(35));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new IntegerValue(55));
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleLongTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Long.class, Arrays.asList(356L));
+        givenTensorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L), Long.class, Arrays.asList(-55L));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(2);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(356L));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new LongValue(-55L));
+    }
+
+    @Test
+    public void adapterShouldWorkWithMultipleStringTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "STRING", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L), String.class, Arrays.asList("This is a"));
+        givenTensorWith("OUTPUT1", "STRING", Arrays.asList(1L, 1L), String.class, Arrays.asList("test string"));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(2);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a"));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new StringValue("test string"));
+    }
+
     /*
      * Given
      */
@@ -519,12 +621,22 @@ public class TensorListAdapterTest {
     }
 
     private void thenResultingNamedWireRecordPropertiesAreEqualTo(String channelName, TypedValue<?> data) {
-        Map<String, TypedValue<?>> wireRecordProp = this.outputRecords.get(0).getProperties();
+        TypedValue<?> value = findWireRecordPropByChannelName(channelName, this.outputRecords);
 
-        TypedValue<?> wireData = wireRecordProp.get(channelName);
+        assertNotNull(value);
+        assertEquals(data, value);
+    }
 
-        assertNotNull(wireData);
-        assertEquals(data, wireData);
+    private TypedValue<?> findWireRecordPropByChannelName(String channelName, List<WireRecord> records) {
+        for (WireRecord record : records) {
+            Map<String, TypedValue<?>> properties = record.getProperties();
+
+            if (properties.containsKey(channelName)) {
+                return properties.get(channelName);
+            }
+        }
+
+        return null;
     }
 
     /*
