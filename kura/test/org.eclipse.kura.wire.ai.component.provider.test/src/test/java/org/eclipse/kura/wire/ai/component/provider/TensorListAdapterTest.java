@@ -345,6 +345,55 @@ public class TensorListAdapterTest {
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(3.2F));
     }
 
+    @Test
+    public void adapterShouldWorkWithDoubleScalarTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Double.class, Arrays.asList(5.464D));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new DoubleValue(5.464D));
+    }
+
+    @Test
+    public void adapterShouldWorkWithIntegerScalarTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Integer.class, Arrays.asList(42));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new IntegerValue(42));
+    }
+
+    @Test
+    public void adapterShouldWorkWithLongScalarTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Long.class, Arrays.asList(36L));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new LongValue(36L));
+    }
+
+    @Test
+    public void adapterShouldWorkWithStringScalarTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), String.class,
+                Arrays.asList("This is a test string"));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(1);
+        thenResultingWireRecordPropertiesAreSize(1);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new StringValue("This is a test string"));
+    }
+
     /*
      * Given
      */
