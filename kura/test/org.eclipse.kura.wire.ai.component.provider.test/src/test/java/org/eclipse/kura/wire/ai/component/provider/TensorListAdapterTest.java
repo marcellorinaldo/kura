@@ -383,8 +383,8 @@ public class TensorListAdapterTest {
 
     @Test
     public void adapterShouldWorkWithStringScalarTensor() {
-        givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
-        givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), String.class,
+        givenTensorDescriptorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L));
+        givenTensorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L), String.class,
                 Arrays.asList("This is a test string"));
 
         whenTensorListAdapterConvertsFromTensorList();
