@@ -496,6 +496,28 @@ public class TensorListAdapterTest {
         thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new StringValue("test string"));
     }
 
+    @Test
+    public void adapterShouldWorkWithMultipleDifferentTypeTensor() {
+        givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT2", "STRING", Arrays.asList(1L, 1L));
+        givenTensorDescriptorWith("OUTPUT3", "INT32", Arrays.asList(1L, 1L));
+
+        givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(6.9F));
+        givenTensorWith("OUTPUT1", "INT32", Arrays.asList(1L, 1L), Integer.class, Arrays.asList(100));
+        givenTensorWith("OUTPUT2", "STRING", Arrays.asList(1L, 1L), String.class,
+                Arrays.asList("May the force be with you"));
+        givenTensorWith("OUTPUT3", "INT32", Arrays.asList(1L, 1L), Long.class, Arrays.asList(254678L));
+
+        whenTensorListAdapterConvertsFromTensorList();
+
+        thenResultingWireRecordIsSize(4);
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT0", new FloatValue(6.9F));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT1", new IntegerValue(100));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT2", new StringValue("May the force be with you"));
+        thenResultingNamedWireRecordPropertiesAreEqualTo("OUTPUT3", new LongValue(254678L));
+    }
+
     /*
      * Given
      */
