@@ -58,7 +58,7 @@ public class TensorListAdapterTest {
      * Scenarios
      */
     @Test
-    public void adapterShouldWorkWithBooleanScalarWiredRecord() {
+    public void adapterShouldWorkWithBooleanWiredRecord() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
 
@@ -86,7 +86,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithFloatScalarWiredRecord() {
+    public void adapterShouldWorkWithFloatWiredRecord() {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecord();
 
@@ -100,7 +100,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithDoubleScalarWiredRecord() {
+    public void adapterShouldWorkWithDoubleWiredRecord() {
         givenWireRecordPropWith("INPUT0", new DoubleValue(3.0D));
         givenWireRecord();
 
@@ -114,7 +114,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithIntegerScalarWiredRecord() {
+    public void adapterShouldWorkWithIntegerWiredRecord() {
         givenWireRecordPropWith("INPUT0", new IntegerValue(6));
         givenWireRecord();
 
@@ -128,7 +128,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithLongScalarWiredRecord() {
+    public void adapterShouldWorkWithLongWiredRecord() {
         givenWireRecordPropWith("INPUT0", new LongValue(6555L));
         givenWireRecord();
 
@@ -142,7 +142,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithStringScalarWiredRecord() {
+    public void adapterShouldWorkWithStringWiredRecord() {
         givenWireRecordPropWith("INPUT0", new StringValue("This is a test"));
         givenWireRecord();
 
@@ -323,7 +323,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithBooleanScalarTensor() {
+    public void adapterShouldWorkWithBooleanTensor() {
         givenTensorDescriptorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "BOOL", Arrays.asList(1L, 1L), Boolean.class, Arrays.asList(true));
 
@@ -336,7 +336,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithByteArrayScalarTensor() {
+    public void adapterShouldWorkWithByteArrayTensor() {
         givenTensorDescriptorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "BYTES", Arrays.asList(1L, 1L), Byte.class,
                 Arrays.asList((byte) 1, (byte) 2, (byte) 3));
@@ -350,7 +350,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithFloatScalarTensor() {
+    public void adapterShouldWorkWithFloatTensor() {
         givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Float.class, Arrays.asList(3.2F));
 
@@ -363,7 +363,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithDoubleScalarTensor() {
+    public void adapterShouldWorkWithDoubleTensor() {
         givenTensorDescriptorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "FP32", Arrays.asList(1L, 1L), Double.class, Arrays.asList(5.464D));
 
@@ -376,7 +376,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithIntegerScalarTensor() {
+    public void adapterShouldWorkWithIntegerTensor() {
         givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Integer.class, Arrays.asList(42));
 
@@ -389,7 +389,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithLongScalarTensor() {
+    public void adapterShouldWorkWithLongTensor() {
         givenTensorDescriptorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "INT32", Arrays.asList(1L, 1L), Long.class, Arrays.asList(36L));
 
@@ -402,7 +402,7 @@ public class TensorListAdapterTest {
     }
 
     @Test
-    public void adapterShouldWorkWithStringScalarTensor() {
+    public void adapterShouldWorkWithStringTensor() {
         givenTensorDescriptorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L));
         givenTensorWith("OUTPUT0", "STRING", Arrays.asList(1L, 1L), String.class,
                 Arrays.asList("This is a test string"));
