@@ -61,7 +61,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithBooleanWiredRecord() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "BOOL", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -75,7 +74,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithByteArrayWiredRecord() {
         givenWireRecordPropWith("INPUT0", new ByteArrayValue(new byte[] { 1, 2, 3, 4 }));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "BYTES", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -89,7 +87,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithFloatWiredRecord() {
         givenWireRecordPropWith("INPUT0", new FloatValue(1.0F));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -103,7 +100,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithDoubleWiredRecord() {
         givenWireRecordPropWith("INPUT0", new DoubleValue(3.0D));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -117,7 +113,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithIntegerWiredRecord() {
         givenWireRecordPropWith("INPUT0", new IntegerValue(6));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "INT32", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -131,7 +126,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithLongWiredRecord() {
         givenWireRecordPropWith("INPUT0", new LongValue(6555L));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "INT32", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -145,7 +139,6 @@ public class TensorListAdapterTest {
     public void adapterShouldWorkWithStringWiredRecord() {
         givenWireRecordPropWith("INPUT0", new StringValue("This is a test"));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "STRING", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -159,7 +152,6 @@ public class TensorListAdapterTest {
     public void adapterShouldThrowIfChannelAndTensorNamesDontMatch() {
         givenWireRecordPropWith("INPUT0", new BooleanValue(true));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT1", "BOOL", Arrays.asList(1L, 1L));
 
         whenTensorListAdapterConvertsFromWireRecord();
@@ -174,7 +166,6 @@ public class TensorListAdapterTest {
         givenWireRecordPropWith("INPUT2", new IntegerValue(64));
         givenWireRecordPropWith("INPUT3", new LongValue(65535));
         givenWireRecord();
-
         givenTensorDescriptorWith("INPUT0", "FP32", Arrays.asList(1L, 1L));
         givenTensorDescriptorWith("INPUT1", "BOOL", Arrays.asList(1L, 1L));
         givenTensorDescriptorWith("INPUT2", "INT32", Arrays.asList(1L, 1L));
