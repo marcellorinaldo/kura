@@ -82,17 +82,6 @@ public class AIComponentOptionsTest {
         thenPostprocessorModelNameIsEmpty();
     }
 
-    @Test
-    public void getPropertiesWorksWhenFieldsAreSpacesOrEmptyStrings() {
-        givenOptionsPopulatedWithStrings("    ", "    ", "");
-
-        whenAccessingOptionsFields();
-
-        thenPreprocessorModelNameIsEmpty();
-        thenInferenceModelNameIsEmpty();
-        thenPostprocessorModelNameIsEmpty();
-    }
-
     /*
      * Given
      */
